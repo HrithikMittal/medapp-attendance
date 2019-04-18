@@ -16,6 +16,8 @@ const port = process.env.PORT || 3000
 
 const viewsPath = path.join(__dirname, "/views")
 
+app.enable('trust proxy');
+
 app.use((req, res, next) => {
   if(!req.secure) {
     res.redirect(`https://${req.headers.host}${req.url}`)
