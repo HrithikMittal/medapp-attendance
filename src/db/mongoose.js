@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 
-mongoose.connect("mongodb+srv://admin-deepak:hNJmGwp24M4Y6LI6@cluster0-hh7uz.mongodb.net/attendanceApp?retryWrites=true", {
+mongoose.connect("mongodb+srv://attendance-medapp:8MJ9496D5UutComD@cluster0-4dvih.mongodb.net/attendanceApp", {
 	useNewUrlParser: true,
 	useCreateIndex: true,
 	useFindAndModify: false
