@@ -1,0 +1,35 @@
+<%- include("../partials/header.ejs") %>
+  <div class="container p-5">
+    <div class="card">
+      <div class="card-header">
+        <div class="text-center"><img src="/employee/avatar" style="width:100px"></div>
+        <h3>Employee Details <a class="btn btn-primary float-right m-1" href="/employee/dashboard">Back To Dashboard</a> <a class="btn btn-primary float-right m-1" href="/employee/logout">Logout</a></h3>
+      </div>
+      <div class="card-body">
+        <form action="/employee/profile" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+              <label for="avatar">Profile Image</label>
+              <input type="file" class="form-control" name="avatar">
+            </div>
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" class="form-control" name="name" placeholder="Enter Your Name" value="<%= name %>" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" class="form-control" name="email" value="<%= email %>" disabled required>
+            </div>
+            <div class="form-group">
+              <label for="designation">Designaton</label>
+              <input type="text" class="form-control" name="designation" placeholder="Enter your designation" value="<%= designation %>">
+            </div>
+            <div class="form-group">
+              <label for="department">Department</label>
+              <input type="text" class="form-control" name="department" placeholder="Enter your department" value="<%= department %>">
+            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+      </div>
+    </div>
+  </div>
+<%- include("../partials/footer.ejs") %>

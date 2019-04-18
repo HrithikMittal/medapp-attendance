@@ -1,0 +1,72 @@
+<%- include("../partials/header.ejs") %>
+	<div class="container-fluid">
+		<div class="container">
+			<h2>Add Event <a class="btn btn-primary float-right m-2" href="/medapp-attendance-admin/dashboard">Dashboard</a> <a class="btn btn-primary float-right m-2" href="/medapp-attendance-admin/logout">Logout</a></h2>
+			<form action="/medapp-attendance-admin/events" method="post" id="addEventForm">
+        <div class="form-group">
+          	<label for="name">Event Name</label>
+         	<input type="text" class="form-control" name="name" value="<%= name %>">
+        </div>
+        <div class="form-group">
+         	<label for="detail">Detail</label>
+        	<input type="text" class="form-control" name="detail" value="<%= detail %>">
+        </div>
+        <div class="form-group">
+         	<label for="date">Date</label>
+          	<input type="date" class="form-control" name="date" value="<%= date %>">
+        </div>
+        <input type="hidden" name="latitude" id="lat">
+        <input type="hidden" name="longitude" id="lng">
+        <input type="hidden" name="address" id="adrr">
+		</form>
+		</div>
+	</div>
+<div id="floating-panel">
+  <label>Location: </label>
+  <input id="address" type="textbox" placeholder="Type Address">
+  <input id="geocode" type="button" value="Use">
+</div>
+<div id="map"></div>
+<div class="container mt-5">
+  <button class="btn btn-primary btn-block" id="submitEvent">Submit</button>
+</div>
+	<script>
+
+      document.querySelector("#submitEvent").addEventListener('click', function() {
+          document.querySelector("#addEventForm").submit()
+      });
+
+      function initMap() {
+        let map = new google.maps.Map(document.querySelector('#map'), {
+          zoom: 12,
+          center: {lat: 12.9716569, lng: 77.5837417}
+        });
+        let geocoder = new google.maps.Geocoder();
+
+        document.querySelector('#geocode').addEventListener('click', function() {
+          geocodeAddress(geocoder, map);
+        });
+      }
+
+      function geocodeAddress(geocoder, resultsMap) {
+        let address = document.querySelector('#address').value;
+        geocoder.geocode({'address': address}, function(results, status) {
+          if (status === 'OK') {
+            document.querySelector("#lat").value = results[0].geometry.location.lat()
+            document.querySelector("#lng").value = results[0].geometry.location.lng()
+            document.querySelector("#adrr").value = results[0].formatted_address
+            resultsMap.setCenter(results[0].geometry.location);
+            let marker = new google.maps.Marker({
+              map: resultsMap,
+              position: results[0].geometry.location
+            });
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
+        });
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC_2McskJXJ7-6pYfYtUlFtQV5jGsYOBJU&callback=initMap">
+    </script>
+<%- include("../partials/footer.ejs") %>
