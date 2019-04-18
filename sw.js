@@ -5,7 +5,7 @@ if (workbox) {
   workbox.routing.registerRoute(
     // Cache image files.
     /\.(?:png|jpg|jpeg|svg|gif)$/,
-    new workbox.strategies.StaleWhileRevalidate({
+    new workbox.strategies.NetworkFirst({
       // Use a custom cache name.
       cacheName: 'image-cache'
     })
@@ -14,7 +14,7 @@ if (workbox) {
   workbox.routing.registerRoute(
     // Cache image files.
     /\.(?:css|js|json|html)$/,
-    new workbox.strategies.StaleWhileRevalidate({
+    new workbox.strategies.NetworkFirst({
       // Use a custom cache name.
       cacheName: 'files-cache'
     })
@@ -23,3 +23,4 @@ if (workbox) {
 } else {
   console.log(`Boo! Workbox didn't load 😬`);
 }
+      
