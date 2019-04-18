@@ -56,6 +56,31 @@ app.get("/", (req, res) => {
   })
 })
 
+//add the manifest
+app.get("/manifest.json", function(req, res){
+  //send the correct headers
+  res.header("Content-Type", "text/cache-manifest");
+  //console.log(path.join(__dirname,"manifest.json"));
+  //send the manifest file
+  //to be parsed bt express
+  res.sendFile(path.join(__dirname,"../manifest.json"));
+});
+
+//add the service worker
+app.get("/sw.js", function(req, res){
+  //send the correct headers
+  res.header("Content-Type", "text/javascript");
+  
+  res.sendFile(path.join(__dirname,"../sw.js"));
+});
+
+app.get("/loader.js", function(req, res){
+  //send the correct headers
+  res.header("Content-Type", "text/javascript");
+  
+  res.sendFile(path.join(__dirname,"../loader.js"));
+});
+
 app.listen(port, (req, res) => {
   console.log(`Server started at port ${port}..`)
 })
