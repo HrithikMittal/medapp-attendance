@@ -4,6 +4,7 @@ const express = require("express")
 const helmet = require("helmet")
 const db = require("./db/mongoose.js")
 const session = require("express-session")
+const MongoStore = require("connect-mongo")(session)
 const messages = require("express-messages")
 const flash = require("connect-flash")
 const employeeRoute = require("./routes/employeeRoute")
@@ -42,7 +43,10 @@ app.use(session({
   cookie: {
   	httpOnly: true,
   	expires: new Date(Date.now() + 60 * 60 * 1000)
-  }
+  },
+  store: new MongoStore({
+    mongooseConnection: db
+  })
 }));
 
 //set the view engine to ejs
