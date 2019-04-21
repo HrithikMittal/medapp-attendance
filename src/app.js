@@ -18,6 +18,7 @@ const viewsPath = path.join(__dirname, "/views")
 
 app.enable('trust proxy');
 
+/*
 app.use((req, res, next) => {
   if(!req.secure) {
     res.redirect(`https://${req.headers.host}${req.url}`)
@@ -25,7 +26,9 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use(express.static(path.join(__dirname, "../public")))
+*/
+
+app.use('/public',express.static(path.join(__dirname, "../public")))
 
 app.use(helmet())
 
@@ -79,14 +82,14 @@ app.get("/manifest.json", function(req, res){
 app.get("/sw.js", function(req, res){
   //send the correct headers
   res.header("Content-Type", "text/javascript");
-  
+
   res.sendFile(path.join(__dirname,"../sw.js"));
 });
 
 app.get("/loader.js", function(req, res){
   //send the correct headers
   res.header("Content-Type", "text/javascript");
-  
+
   res.sendFile(path.join(__dirname,"../loader.js"));
 });
 
