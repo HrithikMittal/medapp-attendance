@@ -19,12 +19,12 @@ const viewsPath = path.join(__dirname, "/views")
 
 app.enable('trust proxy');
 
-app.use((req, res, next) => {
-  if(!req.secure) {
-    res.redirect(`https://${req.headers.host}${req.url}`)
-  }
-  next()
-})
+// app.use((req, res, next) => {
+//   if(!req.secure) {
+//     res.redirect(`https://${req.headers.host}${req.url}`)
+//   }
+//   next()
+// })
 
 app.use('/public',express.static(path.join(__dirname, "../public")))
 

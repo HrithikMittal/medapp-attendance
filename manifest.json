@@ -7,12 +7,12 @@
   "description": "Employees attendance management for medapp.in",
   "icons": [
     {
-      "src": "/logo-192.png",
+      "src": "../public/logo-192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "/logo-512.png",
+      "src": "../public/logo-512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
