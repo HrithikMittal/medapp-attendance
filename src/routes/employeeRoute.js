@@ -340,6 +340,17 @@ router.get("/compare-location", isEmployeeLoggedIn, async (req, res) => {
 			etime[0] = Number(etime[0])
 			etime[1] = Number(etime[1])
 
+			return res.send({
+				success: true,
+				data: {
+					ctime,
+					stime,
+					etime,
+					cdate,
+					rdate
+				}
+			})
+
 			if(ctime.h >= stime[0] && ctime.h <= etime[0])
 			{
 				if(ctime.h == stime[0] && ctime.h == etime[0])
