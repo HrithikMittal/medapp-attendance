@@ -50,13 +50,14 @@
 		            Events of year <%= year %>
 		          <% } %>
 					 </div>
-		       <div class="card-body">
+		       <div class="card-body p-1">
 						<div class="table-responsive">
-		          <table class="table table-hover">
+		          <table class="table table-hover text-center">
 		            <thead>
 		              	<tr class="table-primary">
 							<th scope="col">Name</th>
 							<th scope="col">Date</th>
+							<th scope="col">Timing <small>(24h Format)</small></th>
 							<th scope="col">Detail</th>
 							<th scope="col">Location</th>
 							<th scope="col">Attendance</th>
@@ -68,6 +69,7 @@
 							<tr>
 								<td><%= event.name %></td>
 								<td><%= event.date.toDateString() %></td>
+								<td><%= event.stime %>-<%= event.etime %></td>
 								<td><%= event.detail %></td>
 								<td><%= event.location.address %></td>
 								<td><a href="/medapp-attendance-admin/viewAttendance?eid=<%= event._id %>" class="btn btn-primary">View attendance</a></td>

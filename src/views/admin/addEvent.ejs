@@ -23,7 +23,17 @@
         </div>
         <div class="form-group">
          	<label for="date" style="font-size:24px;">Date</label>
-          	<input type="date" class="form-control" name="date" value="<%= date %>">
+        	<input type="date" class="form-control" name="date" value="<%= date %>">
+        </div>
+        <div class="form-group">
+          <label for="stime" style="font-size:24px;">Starting Time</label>
+          <input type="time" class="form-control" name="stime" required>
+          <small>Use 24 hours format hrs:min</small>
+        </div>
+        <div class="form-group">
+          <label for="etime" style="font-size:24px;">Ending Time</label>
+          <input type="time" class="form-control" name="etime" required>
+          <small>Use 24 hours format hrs:min</small>
         </div>
         <input type="hidden" name="latitude" id="lat">
         <input type="hidden" name="longitude" id="lng">

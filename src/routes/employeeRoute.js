@@ -309,6 +309,51 @@ router.get("/compare-location", isEmployeeLoggedIn, async (req, res) => {
 		const event = await Event.findById(req.query.eid)
 
 		if(event) {
+
+			if(event.date > Date.now()) {
+				req.flash("danger", "Look like event yet to happen!")
+				return res.send({
+					success: false
+				})	
+			} else if(event.Date < Date.now()) {
+				req.flash("danger", "Look like event already happened!")
+				return res.send({
+					success: false
+				})	
+			}
+
+			const ctime = {
+				h: new Date.now().getHours(),
+				m: new Date.now().getMinutes()
+			}
+
+			const stime = event.stime.split(":")
+			const etime = event.etime.split(":")
+
+			if(ctime.h >= stime[0] && ctime.h <= etime[0])
+			{
+				if(ctime.h == stime[0]) {
+					if(!ctime.m >= stime[1]) {
+						req.flash("danger", "Look like you are early for attendance!")
+						return res.send({
+							success: false
+						})	
+					}
+				} else if (ctime.h == etime[0]) {
+					if(!ctime.m <= etime[1]) {
+						req.flash("danger", "Look like you are late for attendance!")
+						return res.send({
+							success: false
+						})	
+					}
+				}
+			} else {
+				req.flash("danger", "Make your attendance when event begin!")
+				return res.send({
+					success: false
+				})
+			}
+
 			const from = {
 				latitude: req.query.latitude,
 				longitude: req.query.longitude
@@ -329,7 +374,7 @@ router.get("/compare-location", isEmployeeLoggedIn, async (req, res) => {
 					success: true
 				})
 			} else {
-				req.flash("danger", "Please make sure you are present at the loaction for Attendance!")
+				req.flash("danger", "Be at the event for attendance!")
 				res.send({
 					success: false
 				})

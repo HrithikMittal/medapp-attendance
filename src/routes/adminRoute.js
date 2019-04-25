@@ -168,6 +168,8 @@ router.get("/events", isAdminLoggedIn, async (req, res) => {
 router.post("/events", isAdminLoggedIn, [
 		check("name").not().isEmpty().withMessage("Please provide event name!").trim().escape(),
 		check("date").not().isEmpty().withMessage("Please select event date!").trim().escape(),
+		check("stime").not().isEmpty().withMessage("Please provide starting time!").custom((value) => value.match(/^\d{2}:\d{2}?$/)).withMessage("Invalid format for starting time!").trim().escape(),
+		check("etime").not().isEmpty().withMessage("Please provide ending time!").custom((value) => value.match(/^\d{2}:\d{2}?$/)).withMessage("Invalid format for starting time!").trim().escape(),
 		check("detail").not().isEmpty().withMessage("Please provide event detail!").trim().escape(),
 		check("latitude").not().isEmpty().withMessage("Please select a location!").trim().escape(),
 		check("longitude").not().isEmpty().withMessage("Please select a location!").trim().escape(),
@@ -193,10 +195,14 @@ router.post("/events", isAdminLoggedIn, [
 		const longitude = req.body.longitude
 		const latitude = req.body.latitude
 		const address = req.body.address
+		const stime = req.body.stime
+		const etime = req.body.etime
 
 		const event = new Event({
 			name,
 			date,
+			stime,
+			etime,
 			detail,
 			location: {
 				latitude,
