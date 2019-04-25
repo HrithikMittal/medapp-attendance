@@ -161,7 +161,7 @@
             .then(res => res.json())
             .then(response => {
               if(response.success) {
-                console.log(response.data)
+                location.reload()
               } else {
                 location.reload()
               }
