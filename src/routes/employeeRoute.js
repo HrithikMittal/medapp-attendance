@@ -328,7 +328,7 @@ router.get("/compare-location", isEmployeeLoggedIn, async (req, res) => {
 			}
 
 			const today = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Kolkata"}))
-			
+
 			const ctime = {
 				h: today.getHours(),
 				m: today.getMinutes()
@@ -341,17 +341,6 @@ router.get("/compare-location", isEmployeeLoggedIn, async (req, res) => {
 			stime[1] = Number(stime[1])
 			etime[0] = Number(etime[0])
 			etime[1] = Number(etime[1])
-
-			return res.send({
-				success: true,
-				data: {
-					ctime,
-					stime,
-					etime,
-					cdate,
-					rdate
-				}
-			})
 
 			if(ctime.h >= stime[0] && ctime.h <= etime[0])
 			{
