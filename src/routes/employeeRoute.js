@@ -330,6 +330,11 @@ router.get("/compare-location", isEmployeeLoggedIn, async (req, res) => {
 			const stime = event.stime.split(":")
 			const etime = event.etime.split(":")
 
+			stime[0] = Number(stime[0])
+			stime[1] = Number(stime[1])
+			etime[0] = Number(etime[0])
+			etime[1] = Number(etime[1])
+
 			if(ctime.h >= stime[0] && ctime.h <= etime[0])
 			{
 				if(ctime.h == stime[0]) {
