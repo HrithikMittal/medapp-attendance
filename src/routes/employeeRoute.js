@@ -346,7 +346,7 @@ router.get("/compare-location", isEmployeeLoggedIn, async (req, res) => {
 			{
 				if(ctime.h == stime[0] && ctime.h == etime[0])
 				{
-					if(!(ctime.m >= stime[1] && ctime.m <= etime[1])) {
+					if(!(ctime.m > stime[1] && ctime.m < etime[1])) {
 						req.flash("danger", "Please check the event timing for attendance!")
 						return res.send({
 							success: false
@@ -354,14 +354,14 @@ router.get("/compare-location", isEmployeeLoggedIn, async (req, res) => {
 					}
 
 				} else if(ctime.h == stime[0]) {
-					if(!ctime.m >= stime[1]) {
+					if(!(ctime.m > stime[1])) {
 						req.flash("danger", "Look like you are little early for attendance!")
 						return res.send({
 							success: false
 						})	
 					}
 				} else if (ctime.h == etime[0]) {
-					if(!ctime.m <= etime[1]) {
+					if(!(ctime.m < etime[1])) {
 						req.flash("danger", "Look like you are little late for attendance!")
 						return res.send({
 							success: false
