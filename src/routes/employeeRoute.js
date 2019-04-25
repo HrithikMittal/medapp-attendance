@@ -138,7 +138,7 @@ router.get("/dashboard", isEmployeeLoggedIn, async (req, res) => {
 		let monthArray = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 		let yearArray = []
 
-		for(let y = moment().year(); y >= 2000; y--)
+		for(let y = moment().year(); y >= 2018; y--)
 			yearArray.push(String(y))
 
 		if(["month", "year"].includes(req.query.option)) {
@@ -167,7 +167,7 @@ router.get("/dashboard", isEmployeeLoggedIn, async (req, res) => {
 
 			const events = await Event.find({ 
 				$expr: expression
-			}).sort({ date: 1})
+			}).sort({ date: -1})
 			
 			res.render("./employee/dashboard", {
 				pageTitle: title.employeeDashboard,
@@ -309,13 +309,18 @@ router.get("/compare-location", isEmployeeLoggedIn, async (req, res) => {
 		const event = await Event.findById(req.query.eid)
 
 		if(event) {
+			const cdate = new Date()
+			const rdate = new Date(event.date)
 
-			if(event.date > Date.now()) {
+			cdate.setHours(0,0,0,0)
+			rdate.setHours(0,0,0,0)
+
+			if(rdate > cdate) {
 				req.flash("danger", "Look like event yet to happen!")
 				return res.send({
 					success: false
 				})	
-			} else if(event.Date < Date.now()) {
+			} else if(rdate < cdate) {
 				req.flash("danger", "Look like event already happened!")
 				return res.send({
 					success: false
@@ -323,8 +328,8 @@ router.get("/compare-location", isEmployeeLoggedIn, async (req, res) => {
 			}
 
 			const ctime = {
-				h: new Date.now().getHours(),
-				m: new Date.now().getMinutes()
+				h: new Date().getHours(),
+				m: new Date().getMinutes()
 			}
 
 			const stime = event.stime.split(":")
@@ -337,23 +342,37 @@ router.get("/compare-location", isEmployeeLoggedIn, async (req, res) => {
 
 			if(ctime.h >= stime[0] && ctime.h <= etime[0])
 			{
-				if(ctime.h == stime[0]) {
+				if(ctime.h == stime[0] && ctime.h == etime[0])
+				{
+					if(!ctime.m >= stime[1] && !ctime.m <= etime[1]) {
+						req.flash("danger", "Please check the event timing for attendance!")
+						return res.send({
+							success: false
+						})	
+					}
+
+				} else if(ctime.h == stime[0]) {
 					if(!ctime.m >= stime[1]) {
-						req.flash("danger", "Look like you are early for attendance!")
+						req.flash("danger", "Look like you are little early for attendance!")
 						return res.send({
 							success: false
 						})	
 					}
 				} else if (ctime.h == etime[0]) {
 					if(!ctime.m <= etime[1]) {
-						req.flash("danger", "Look like you are late for attendance!")
+						req.flash("danger", "Look like you are little late for attendance!")
 						return res.send({
 							success: false
 						})	
 					}
 				}
-			} else {
-				req.flash("danger", "Make your attendance when event begin!")
+			} else if(ctime.h > etime[0]) {
+				req.flash("danger", "You are too late for the event!")
+				return res.send({
+					success: false
+				})
+			} else if(ctime.h < stime[0]) {
+				req.flash("danger", "You are too early for the event!")
 				return res.send({
 					success: false
 				})
@@ -390,7 +409,8 @@ router.get("/compare-location", isEmployeeLoggedIn, async (req, res) => {
 			})
 		}
 	} catch(e) {
-		res.status.send("Unable to compare locations! \n" + e)
+		console.log(e)
+		res.status(500).send("Unable to compare locations! \n" + e)
 	}
 })
 
