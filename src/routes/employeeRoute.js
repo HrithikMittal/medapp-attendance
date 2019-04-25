@@ -327,9 +327,11 @@ router.get("/compare-location", isEmployeeLoggedIn, async (req, res) => {
 				})	
 			}
 
+			const today = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Kolkata"}))
+			
 			const ctime = {
-				h: new Date().getHours(),
-				m: new Date().getMinutes()
+				h: today.getHours(),
+				m: today.getMinutes()
 			}
 
 			const stime = event.stime.split(":")
