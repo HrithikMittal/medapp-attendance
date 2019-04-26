@@ -3,6 +3,7 @@ const multer = require("multer")
 const moment = require("moment")
 const express = require("express")
 const geolib = require("geolib")
+const validator = require("validator")
 const Employee = require("../models/employeeModel")
 const Event = require("../models/eventModel")
 const mongoose = require("mongoose")
@@ -44,7 +45,7 @@ router.get("/register", isEmployeeLoggedOut, (req, res) => {
 })
 
 router.post("/login", isEmployeeLoggedOut, [
-		check("email").not().isEmpty().withMessage("Please provide email.").isEmail().withMessage("Invalid email address.").trim().escape(),
+		check("email").not().isEmpty().withMessage("Please provide employee Id.").trim().escape(),
 		check("password").not().isEmpty().withMessage("Please provide password.").trim().escape()
 	], async (req, res) => {
 		try {
@@ -60,6 +61,12 @@ router.post("/login", isEmployeeLoggedOut, [
 					email
 				})
 			}
+
+			if(!(validator.isEmail(email) || validator.isAlphanumeric(email))) {
+				req.flash("danger", "Provide an email or ID")
+				return res.redirect("/employee/login")
+			}
+
 			const employee = await Employee.authenticate(email, password)
 			
 			if(!employee){
@@ -80,7 +87,7 @@ router.post("/login", isEmployeeLoggedOut, [
 
 router.post("/register", isEmployeeLoggedOut, [
 		check("name").not().isEmpty().withMessage("Please provide employee name.").trim().escape(),
-		check("email").not().isEmpty().withMessage("Please provide email.").isEmail().withMessage("Provide email address.").trim().escape(),
+		check("email").not().isEmpty().withMessage("Please provide Employee ID").trim().escape(),
 		check("password").not().isEmpty().withMessage("Please provide password.").trim().escape(),
 		check("confPassword").not().isEmpty().withMessage("Please confirm your password.").custom((value, {req}) => value === req.body.password).withMessage("Password does not match.").trim().escape()
 	], async (req, res) => {
@@ -99,6 +106,12 @@ router.post("/register", isEmployeeLoggedOut, [
 					errors: errors.array()
 				})
 			}
+
+			if(!(validator.isEmail(email) || validator.isAlphanumeric(email))) {
+				req.flash("danger", "Provide an email or ID")
+				return res.redirect("/employee/register")
+			}
+			
 			const employee = await Employee.findOne({ email })
 
 			if(employee){
