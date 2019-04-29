@@ -23,14 +23,14 @@
             </tr>
           </thead>
           <tbody>
-            <% if(employees.length > 0) { %>
-              <% employees.forEach((employee) => { %>
+            <% if(event.attendances.length > 0) { %>
+              <% event.attendances.forEach((attendance) => { %>
                 <tr class="table-primary">
-                  <td><%= employee.name %></td>
-                  <td><%= employee.email %></td>
-                  <td><%= employee.designation || "Nil" %></td>
-                  <td><%= employee.department || "Nil" %></td>
-                  <td><a href="/medapp-attendance-admin/employee/avatar?emp=<%= employee._id %>"><img src="/medapp-attendance-admin/employee/avatar?emp=<%= employee._id %>" style="width: 100px"></a></td>
+                  <td><%= attendance.employee.name %></td>
+                  <td><%= attendance.employee.email %></td>
+                  <td><%= attendance.employee.designation || "Nil" %></td>
+                  <td><%= attendance.employee.department || "Nil" %></td>
+                  <td><a href="/medapp-attendance-admin/employee/avatar?emp=<%= attendance.employee._id %>"><img src="/medapp-attendance-admin/employee/avatar?emp=<%= attendance.employee._id %>" style="width: 100px"></a></td>
                 </tr>
               <% }) %>
             <% } %>

@@ -225,15 +225,14 @@ router.get("/viewAttendance", isAdminLoggedIn, async (req, res) => {
 	try {
 		if(req.query.eid) {
 			const event = await Event.findById(req.query.eid)
-			const employees = await Employee.find({
-				_id : { $in: event.attendances}
-			})
+
+			await event.populate("attendances.employee").execPopulate()
 
 			res.render("./admin/viewAttendance", {
 				pageTitle: title.adminViewAttendance,
-				employees,
 				event
 			})
+
 		}else {
 			req.flash("danger", "Invalid Request")
 			res.redirect("/dashboard")

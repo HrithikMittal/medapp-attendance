@@ -404,7 +404,10 @@ router.get("/compare-location", isEmployeeLoggedIn, async (req, res) => {
 			}
 
 			if(geolib.getDistance(from, to) <= 500) {
-				event.attendances.push(req.session.employee._id)
+				event.attendances.push({
+					employee: req.session.employee._id,
+					date: today
+				})
 
 				await event.save()
 
