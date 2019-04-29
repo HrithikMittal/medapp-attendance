@@ -72,7 +72,7 @@
                 <td><%= event.detail %></td>
                 <td><%= event.location.address %></td>
                 <td>
-                  <% if(event.attendances.some((attendance) => attendance.equals(employeeId))) { %>
+                  <% if(event.attendances.some((attendance) => attendance.employee.equals(employeeId))) { %>
                     Made
                   <% } else { %>
                     <button class="btn btn-primary btn-sm mk-attd" eid="<%= event._id %>">Make Attd</a>

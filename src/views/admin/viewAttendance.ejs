@@ -19,6 +19,7 @@
               <th scope="col">Email</th>
               <th scope="col">Designation</th>
               <th scope="col">Department</th>
+              <th scope="col">Time</th>
               <th scope="col">Avatar</th>
             </tr>
           </thead>
@@ -30,6 +31,7 @@
                   <td><%= attendance.employee.email %></td>
                   <td><%= attendance.employee.designation || "Nil" %></td>
                   <td><%= attendance.employee.department || "Nil" %></td>
+                  <td><%= attendance.date.toLocaleString() %></td>
                   <td><a href="/medapp-attendance-admin/employee/avatar?emp=<%= attendance.employee._id %>"><img src="/medapp-attendance-admin/employee/avatar?emp=<%= attendance.employee._id %>" style="width: 100px"></a></td>
                 </tr>
               <% }) %>

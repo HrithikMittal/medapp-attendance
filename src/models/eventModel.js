@@ -47,7 +47,7 @@ const eventSchema = new mongoose.Schema({
 	attendances: [{
 		employee: {
 			type: mongoose.Schema.Types.ObjectId,
-			trim: true
+			ref: "Employee"
 		},
 		date: {
 			type: Date,
